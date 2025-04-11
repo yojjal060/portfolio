@@ -350,7 +350,7 @@ export default function Portfolio() {
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-theme-primary/20 to-theme-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <img
-                src="./profile-image.jpg"
+                src="./Profile-image.jpg"
                 alt="Profile"
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />
