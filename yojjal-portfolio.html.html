@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yojjal Sharma, Full Stack Developer from Pokhara, Nepal. JRPG adventurer guild portfolio with skills, quests, artifacts, lore, and contact.">
+  <title>Yojjal Sharma | Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Lora:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="icon" href="./images/full-stack-mage.png" type="image/png">
+  <style>
+    :root {
+      --dark-walnut: #1A1208;
+      --dark-chestnut: #2C1D0E;
+      --parchment: #F2E0C0;
+      --parchment-warm: #F5E8CE;
+      --amber-gold: #D4820A;
+      --bright-amber: #FFBA42;
+      --rust: #B84A1A;
+      --warm-ivory: #EDD9A3;
+      --dark-espresso: #3B1F08;
+      --aged-oak: #8B5E2A;
+      --dusty-tan: #A07840;
+      --dark-wood: #3B2510;
+      --quest-green: #6B9E4A;
+      --footer-ink: #0F0B05;
+    }
+
+    @font-face {
+      font-family: "Saman";
+      src: url("./font/SAMAN___.TTF") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--dark-walnut);
+    }
+
+    body {
+      min-width: 320px;
+      background: var(--dark-walnut);
+      color: var(--warm-ivory);
+      font-family: "Lora", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    body.nav-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    svg {
+      display: block;
+      shape-rendering: crispEdges;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .scanline {
+      position: relative;
+      background-color: var(--dark-walnut);
+      background-image:
+        repeating-linear-gradient(transparent, transparent 2px, rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+    }
+
+    .scanline::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 22% 12%, rgba(255, 186, 66, 0.05), transparent 24%),
+        radial-gradient(circle at 78% 88%, rgba(184, 74, 26, 0.05), transparent 24%);
+      z-index: 1;
+    }
+
+    .parchment {
+      color: var(--dark-espresso);
+      background-color: var(--parchment);
+      background-image:
+        radial-gradient(circle at 15% 22%, rgba(139, 94, 42, 0.12) 0 1px, transparent 1px),
+        radial-gradient(circle at 75% 55%, rgba(184, 74, 26, 0.08) 0 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent 34%, rgba(139, 94, 42, 0.08));
+      background-size: 18px 18px, 24px 24px, 100% 100%;
+    }
+
+    .section {
+      padding: 94px 0;
+      scroll-margin-top: 74px;
+    }
+
+    .section-heading,
+    .minor-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin-bottom: 34px;
+      font-family: "Press Start 2P", monospace;
+      font-size: clamp(13px, 1.8vw, 18px);
+      color: var(--rust);
+    }
+
+    .section-heading.dark {
+      color: var(--bright-amber);
+    }
+
+    .minor-heading {
+      margin-bottom: 14px;
+      font-family: "VT323", monospace;
+      font-size: 28px;
+      color: var(--rust);
+    }
+
+    .minor-heading.dark {
+      color: var(--bright-amber);
+    }
+
+    .section-heading span,
+    .minor-heading span {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .section-heading::after,
+    .minor-heading::after {
+      content: "";
+      flex: 1 1 auto;
+      height: 2px;
+      min-width: 42px;
+      background: repeating-linear-gradient(90deg, currentColor 0, currentColor 10px, transparent 10px, transparent 16px);
+      transform: translateY(1px);
+    }
+
+    .pixel-divider {
+      margin: 26px auto 0;
+      color: var(--amber-gold);
+      font-family: "VT323", monospace;
+      font-size: 24px;
+      text-align: center;
+      letter-spacing: 0;
+    }
+
+    .jrpg-panel {
+      position: relative;
+      border: 2px solid var(--aged-oak);
+      background: var(--dark-chestnut);
+      padding: 26px;
+      box-shadow: 0 0 0 0 rgba(212, 130, 10, 0);
+    }
+
+    .jrpg-panel::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid var(--amber-gold);
+      pointer-events: none;
+    }
+
+    .jrpg-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .parchment-panel {
+      background: var(--parchment-warm);
+      color: var(--dark-espresso);
+    }
+
+    .rpg-button,
+    .inventory-button,
+    .artifact-action,
+    .social-button,
+    .icon-tile,
+    .nav-link,
+    .brand-link,
+    .menu-button {
+      transition: background-color 0.15s linear, color 0.15s linear, border-color 0.15s linear, box-shadow 0.15s linear, transform 0.15s linear;
+    }
+
+    .rpg-button,
+    .inventory-button,
+    .artifact-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 2px solid var(--amber-gold);
+      background: transparent;
+      color: var(--bright-amber);
+      cursor: pointer;
+      font-family: "Press Start 2P", monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 12px 18px;
+    }
+
+    .rpg-button:hover,
+    .rpg-button:focus-visible,
+    .artifact-action.primary:hover,
+    .artifact-action.primary:focus-visible {
+      background: var(--amber-gold);
+      color: var(--dark-walnut);
+      box-shadow: 0 0 10px rgba(212, 130, 10, 0.6);
+      outline: none;
+    }
+
+    .rpg-button:active,
+    .inventory-button:active,
+    .artifact-action:active,
+    .social-button:active,
+    .icon-tile:active,
+    .menu-button:active {
+      transform: translate(2px, 2px);
+    }
+
+    .btn-cursor {
+      display: inline-block;
+      animation: blink 0.8s steps(1) infinite;
+    }
+
+    .nav-shell {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50;
+      width: 100%;
+      height: 56px;
+      border-bottom: 2px solid var(--amber-gold);
+      background: rgba(26, 18, 8, 0.98);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--amber-gold);
+      font-family: "Press Start 2P", monospace;
+      font-size: 13px;
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      image-rendering: auto;
+    }
+
+    .brand-link:hover,
+    .brand-link:focus-visible {
+      color: var(--bright-amber);
+      box-shadow: 0 0 10px rgba(212, 130, 10, 0.45);
+      outline: none;
+    }
+
+    .desktop-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-family: "VT323", monospace;
+      font-size: 22px;
+      color: var(--warm-ivory);
+    }
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      color: var(--warm-ivory);
+      line-height: 1;
+    }
+
+    .nav-link::before {
+      content: "▶";
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      color: var(--bright-amber);
+      transition: width 0.15s linear, opacity 0.15s linear;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible,
+    .nav-link.active {
+      color: var(--bright-amber);
+      outline: none;
+    }
+
+    .nav-link:hover::before,
+    .nav-link:focus-visible::before,
+    .nav-link.active::before {
+      width: 18px;
+      opacity: 1;
+    }
+
+    .desktop-links .nav-dot {
+      color: var(--aged-oak);
+    }
+
+    .menu-button {
+      display: none;
+      width: 44px;
+      height: 38px;
+      border: 2px solid var(--amber-gold);
+      background: transparent;
+      color: var(--bright-amber);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-lines,
+    .menu-lines::before,
+    .menu-lines::after {
+      display: block;
+      width: 22px;
+      height: 3px;
+      background: currentColor;
+      content: "";
+    }
+
+    .menu-lines {
+      position: relative;
+    }
+
+    .menu-lines::before {
+      position: absolute;
+      top: -8px;
+      left: 0;
+    }
+
+    .menu-lines::after {
+      position: absolute;
+      top: 8px;
+      left: 0;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      z-index: 49;
+      width: min(330px, 88vw);
+      height: calc(100vh - 56px);
+      padding: 28px;
+      border-left: 2px solid var(--aged-oak);
+      background: var(--dark-walnut);
+      box-shadow: -4px 0 0 var(--amber-gold);
+      transform: translateX(110%);
+      transition: transform 0.18s linear;
+    }
+
+    .mobile-menu::before {
+      content: "";
+      position: absolute;
+      inset: 5px auto 5px 5px;
+      width: 1px;
+      background: var(--amber-gold);
+    }
+
+    .nav-open .mobile-menu {
+      transform: translateX(0);
+    }
+
+    .mobile-menu nav {
+      display: grid;
+      gap: 22px;
+      font-family: "VT323", monospace;
+      font-size: 30px;
+      color: var(--warm-ivory);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 92px 0 42px;
+      text-align: center;
+    }
+
+    .hero-content {
+      width: min(860px, 100%);
+      margin: 0 auto;
+    }
+
+    .crest {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 22px;
+      filter: drop-shadow(0 0 14px rgba(212, 130, 10, 0.5));
+    }
+
+    .crest img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .hero-title {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-height: 1.6em;
+      white-space: nowrap;
+      color: var(--amber-gold);
+      font-size: clamp(20px, 4vw, 36px);
+      line-height: 1.55;
+      letter-spacing: 0;
+      text-shadow: 0 0 20px rgba(212, 130, 10, 0.5), 2px 2px 0 var(--dark-espresso);
+    }
+
+    .hero-title-text {
+      display: inline-block;
+      font-family: "Press Start 2P", monospace;
+    }
+
+    .hero-title-text.title-english {
+      font-family: "Press Start 2P", monospace;
+    }
+
+    .hero-title-text.title-saman {
+      font-family: "Saman", "Press Start 2P", monospace;
+    }
+
+    .hero-subtitle {
+      margin-top: 12px;
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: clamp(27px, 4vw, 30px);
+      line-height: 1.2;
+    }
+
+    .cursor {
+      display: inline-block;
+      color: var(--bright-amber);
+      animation: blink 0.8s steps(1) infinite;
+    }
+
+    .hero-meta {
+      color: var(--dusty-tan);
+      font-family: "VT323", monospace;
+      font-size: 20px;
+    }
+
+    .hero-stat-box {
+      width: min(720px, 100%);
+      margin: 28px auto 22px;
+      text-align: left;
+    }
+
+    .hero-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 28px;
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .label {
+      color: var(--amber-gold);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .hero-bottom-arrows {
+      display: inline-flex;
+      gap: 10px;
+      margin-top: 38px;
+      color: var(--amber-gold);
+      font-family: "VT323", monospace;
+      font-size: 28px;
+    }
+
+    .hero-bottom-arrows span {
+      animation: blink 1.25s steps(1) infinite;
+    }
+
+    .hero-bottom-arrows span:nth-child(2) {
+      animation-delay: 0.22s;
+    }
+
+    .hero-bottom-arrows span:nth-child(3) {
+      animation-delay: 0.44s;
+    }
+
+    .icon-strip {
+      min-height: 100px;
+      border-top: 1px solid var(--dark-wood);
+      border-bottom: 2px solid var(--amber-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 10px 16px;
+    }
+
+    .icon-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .icon-tile {
+      width: 88px;
+      min-width: 88px;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border: 2px solid var(--amber-gold);
+      border-right-width: 1px;
+      background: var(--dark-chestnut);
+      color: var(--amber-gold);
+      font-family: "VT323", monospace;
+      font-size: 24px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .icon-tile:last-child {
+      border-right-width: 2px;
+    }
+
+    .icon-tile:hover,
+    .icon-tile:focus-visible,
+    .icon-tile.active {
+      background: var(--amber-gold);
+      color: var(--dark-walnut);
+      box-shadow: 0 0 8px rgba(212, 130, 10, 0.7);
+      outline: none;
+    }
+
+    .icon-tile svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .icon-tile img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 42px;
+      align-items: start;
+    }
+
+    .bio-copy {
+      margin-bottom: 6px;
+      color: var(--dark-espresso);
+      font-size: 20px;
+      font-style: italic;
+    }
+
+    .aside {
+      margin: 0 0 22px 12px;
+      color: var(--dusty-tan);
+      font-size: 17px;
+      font-style: italic;
+    }
+
+    .character-info {
+      margin-bottom: 24px;
+      color: var(--dark-espresso);
+      font-family: "VT323", monospace;
+      font-size: 25px;
+      line-height: 1.55;
+    }
+
+    .character-info .label {
+      color: var(--rust);
+    }
+
+    .stat-grid {
+      width: min(520px, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 34px;
+      margin-bottom: 14px;
+      color: var(--dark-espresso);
+      font-family: "VT323", monospace;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .stat-name {
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .stat-note {
+      color: var(--dusty-tan);
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    .badge-row,
+    .tag-row,
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 3px 10px;
+      background: var(--rust);
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .badge-icon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      image-rendering: auto;
+      flex: 0 0 auto;
+    }
+
+    .portrait-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .portrait-frame {
+      position: relative;
+      width: 164px;
+      height: 164px;
+      border: 4px solid var(--dark-espresso);
+      padding: 6px;
+      background: var(--parchment-warm);
+    }
+
+    .portrait-inner {
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--amber-gold);
+      background: #E8D0A0;
+      display: grid;
+      place-items: center;
+    }
+
+    .stud {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--rust);
+    }
+
+    .stud.tl { top: -2px; left: -2px; }
+    .stud.tr { top: -2px; right: -2px; }
+    .stud.bl { bottom: -2px; left: -2px; }
+    .stud.br { bottom: -2px; right: -2px; }
+
+    .class-badge {
+      border: 2px solid var(--amber-gold);
+      background: var(--parchment-warm);
+      color: var(--dark-espresso);
+      font-family: "VT323", monospace;
+      font-size: 22px;
+      line-height: 1;
+      padding: 7px 13px;
+      text-align: center;
+      box-shadow: 0 0 0 2px var(--dark-espresso);
+    }
+
+    .inventory-button {
+      width: 164px;
+      border-color: var(--dark-espresso);
+      color: var(--dark-espresso);
+      font-size: 10px;
+      padding: 9px 12px;
+    }
+
+    .inventory-button:hover,
+    .inventory-button:focus-visible {
+      background: var(--dark-espresso);
+      color: var(--parchment);
+      box-shadow: 0 0 10px rgba(59, 31, 8, 0.45);
+      outline: none;
+    }
+
+    .quick-links {
+      width: 100%;
+      color: var(--aged-oak);
+      font-family: "VT323", monospace;
+      font-size: 25px;
+      line-height: 1.65;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .quick-links div,
+    .contact-lines div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .contact-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      image-rendering: auto;
+      flex: 0 0 auto;
+    }
+
+    .skills-grid,
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .skill-card h3,
+    .artifact-card h3 {
+      font-family: "Press Start 2P", monospace;
+      font-size: 35px;
+      line-height: 1.6;
+      color: var(--rust);
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .skill-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      image-rendering: auto;
+      flex: 0 0 auto;
+    }
+
+    .skill-row {
+      margin-bottom: 15px;
+    }
+
+    .skill-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      border: 1px solid var(--amber-gold);
+      background: var(--dark-wood);
+      color: var(--warm-ivory);
+      font-family: "Share Tech Mono", monospace;
+      font-size: 23px;
+      line-height: 1;
+      padding: 5px 8px;
+    }
+
+    .inventory-tags {
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    .quest-timeline {
+      position: relative;
+      display: grid;
+      gap: 24px;
+      padding-left: 36px;
+    }
+
+    .quest-timeline::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 14px;
+      width: 2px;
+      background: repeating-linear-gradient(180deg, var(--amber-gold) 0, var(--amber-gold) 8px, transparent 8px, transparent 14px);
+    }
+
+    .quest-entry {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .quest-icon,
+    .record-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--amber-gold);
+      background: var(--rust);
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 26px;
+      line-height: 1;
+      box-shadow: 3px 3px 0 var(--aged-oak);
+      overflow: hidden;
+    }
+
+    .quest-icon img,
+    .record-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .quest-body {
+      min-width: 0;
+    }
+
+    .quest-top,
+    .artifact-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .status-badge,
+    .rarity-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background: var(--quest-green);
+      color: var(--dark-walnut);
+    }
+
+    .status-complete,
+    .rarity-legendary {
+      background: var(--amber-gold);
+      color: var(--dark-walnut);
+    }
+
+    .rarity-rare {
+      background: var(--rust);
+      color: var(--warm-ivory);
+    }
+
+    .quest-title,
+    .record-title {
+      color: var(--dark-espresso);
+      font-family: "VT323", monospace;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .company,
+    .institution {
+      color: var(--dusty-tan);
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    .date-line {
+      color: var(--aged-oak);
+      font-family: "VT323", monospace;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .quest-points {
+      display: grid;
+      gap: 7px;
+      color: var(--dark-espresso);
+      font-size: 16px;
+      list-style: none;
+    }
+
+    .quest-points li {
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .quest-points li::before {
+      content: "◆";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--amber-gold);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .artifact-card {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.15s linear, box-shadow 0.15s linear;
+    }
+
+    .artifact-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 16px rgba(212, 130, 10, 0.4);
+    }
+
+    .artifact-icon {
+      height: 55px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .artifact-icon img {
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .artifact-name {
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 31px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .artifact-desc {
+      color: var(--dusty-tan);
+      font-size: 15px;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .project-tags {
+      justify-content: center;
+    }
+
+    .artifact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .artifact-action {
+      flex: 1 1 128px;
+      min-height: 39px;
+      padding: 8px 10px;
+      font-size: 9px;
+      color: var(--warm-ivory);
+      border-color: var(--aged-oak);
+    }
+
+    .artifact-action.primary {
+      color: var(--amber-gold);
+      border-color: var(--amber-gold);
+    }
+
+    .artifact-action.secondary:hover,
+    .artifact-action.secondary:focus-visible {
+      background: var(--aged-oak);
+      color: var(--dark-walnut);
+      box-shadow: 0 0 10px rgba(139, 94, 42, 0.65);
+      outline: none;
+    }
+
+    .records-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .record-card {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .courses {
+      margin-top: 9px;
+      color: var(--dark-espresso);
+      font-size: 15px;
+    }
+
+    .philosophy {
+      margin-top: 28px;
+      text-align: center;
+    }
+
+    .philosophy blockquote {
+      color: var(--dark-espresso);
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    .philosophy cite {
+      display: block;
+      margin-top: 10px;
+      color: var(--rust);
+      font-family: "VT323", monospace;
+      font-size: 22px;
+      font-style: normal;
+    }
+
+    .contact-wrap {
+      width: min(720px, 100%);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .raven-mark {
+      width: 200px;
+      height: 100px;
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 0 14px rgba(212, 130, 10, 0.45));
+    }
+
+    .raven-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .contact-lines {
+      margin-bottom: 26px;
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 24px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .social-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .social-button {
+      width: 100px;
+      height: 100px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--amber-gold);
+      background: var(--dark-chestnut);
+      color: var(--bright-amber);
+      font-family: "Share Tech Mono", monospace;
+      font-size: 16px;
+      line-height: 1;
+      overflow: hidden;
+    }
+
+    .social-button img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+    }
+
+    .social-button:hover,
+    .social-button:focus-visible {
+      background: var(--amber-gold);
+      color: var(--dark-walnut);
+      box-shadow: 0 0 10px rgba(212, 130, 10, 0.6);
+      outline: none;
+    }
+
+    .download-button {
+      width: min(320px, 100%);
+    }
+
+    .footer {
+      border-top: 2px solid var(--amber-gold);
+      background: var(--footer-ink);
+      padding: 28px 18px;
+      text-align: center;
+    }
+
+    .footer-icon {
+      margin-bottom: 8px;
+      display: grid;
+      place-items: center;
+    }
+
+    .footer-icon img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .footer-main {
+      color: var(--warm-ivory);
+      font-family: "VT323", monospace;
+      font-size: 19px;
+    }
+
+    .footer-sub {
+      margin-top: 4px;
+      color: var(--dusty-tan);
+      font-family: "VT323", monospace;
+      font-size: 16px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s linear, transform 0.3s linear;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes typeTitle {
+      from { width: 0; }
+      to { width: 13ch; }
+    }
+
+    @media (max-width: 900px) {
+      .skills-grid,
+      .artifacts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-side {
+        width: min(300px, 100%);
+        margin: 4px auto 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 26px, 1120px);
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .desktop-links {
+        display: none;
+      }
+
+      .menu-button {
+        display: inline-flex;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding-top: 86px;
+      }
+
+      .hero-stat-grid {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .hero-title {
+        font-size: 20px;
+      }
+
+      .icon-strip {
+        justify-content: flex-start;
+      }
+
+      .section-heading {
+        gap: 10px;
+        margin-bottom: 26px;
+        font-size: 13px;
+      }
+
+      .minor-heading {
+        font-size: 26px;
+      }
+
+      .quest-timeline {
+        padding-left: 24px;
+      }
+
+      .quest-timeline::before {
+        left: 7px;
+      }
+
+      .quest-entry,
+      .record-card {
+        grid-template-columns: 1fr;
+      }
+
+      .quest-icon,
+      .record-icon {
+        margin-left: -4px;
+      }
+
+      .quest-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .jrpg-panel {
+        padding: 22px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-title {
+        font-size: 18px;
+      }
+
+      .contact-lines {
+        font-size: 21px;
+      }
+
+      .artifact-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-shell" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand-link" href="#top" aria-label="Yojjal Sharma home">
+        <img class="brand-logo" src="./images/full-stack-mage.png" alt="" aria-hidden="true">
+        YS
+      </a>
+      <nav class="desktop-links" aria-label="Main navigation">
+        <a class="nav-link" href="#stats" data-section-link="stats">STATS</a>
+        <span class="nav-dot">·</span>
+        <a class="nav-link" href="#quests" data-section-link="quests">QUESTS</a>
+        <span class="nav-dot">·</span>
+        <a class="nav-link" href="#artifacts" data-section-link="artifacts">ARTIFACTS</a>
+        <span class="nav-dot">·</span>
+        <a class="nav-link" href="#lore" data-section-link="lore">LORE</a>
+        <span class="nav-dot">·</span>
+        <a class="nav-link" href="#contact" data-section-link="contact">CONTACT</a>
+      </nav>
+      <button class="menu-button" type="button" aria-label="Open navigation" aria-controls="mobile-menu" aria-expanded="false">
+        <span class="menu-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <nav>
+      <a class="nav-link" href="#stats" data-section-link="stats">STATS</a>
+      <a class="nav-link" href="#quests" data-section-link="quests">QUESTS</a>
+      <a class="nav-link" href="#artifacts" data-section-link="artifacts">ARTIFACTS</a>
+      <a class="nav-link" href="#lore" data-section-link="lore">LORE</a>
+      <a class="nav-link" href="#contact" data-section-link="contact">CONTACT</a>
+    </nav>
+  </aside>
+
+  <main id="top">
+    <section class="hero scanline" aria-labelledby="hero-title">
+      <div class="container hero-content">
+        <div class="crest" aria-hidden="true">
+          <img src="./images/swordsman.png" alt="Swordsman crest">
+        </div>
+
+        <h1 class="hero-title" id="hero-title">
+          <span class="hero-title-text title-english" data-text-english="YOJJAL SHARMA" data-text-saman="YOJJAL SHARMA">YOJJAL SHARMA</span>
+        </h1>
+        <p class="hero-subtitle">Full Stack Developer <span class="cursor" aria-hidden="true">▌</span></p>
+        <p class="hero-meta">Est. 2022 · Pokhara, Nepal</p>
+
+        <div class="jrpg-panel hero-stat-box">
+          <div class="hero-stat-grid" aria-label="Character stat preview">
+            <div><span class="label">CLASS</span> : Full Stack Developer</div>
+            <div><span class="label">LEVEL</span> : 03</div>
+            <div><span class="label">GUILD</span> : Software Engineering</div>
+            <div><span class="label">STATUS</span> : Open to Work</div>
+            <div><span class="label">ORIGIN</span> : Pokhara, Nepal</div>
+            <div><span class="label">EXP</span> : 2+ Years</div>
+          </div>
+        </div>
+
+        <a class="rpg-button" href="#quests"><span class="btn-cursor" aria-hidden="true">▶</span> VIEW QUEST LOG</a>
+        <div class="hero-bottom-arrows" aria-hidden="true"><span>▼</span><span>▼</span><span>▼</span></div>
+      </div>
+    </section>
+
+    <nav class="icon-strip scanline" aria-label="Section shortcut navigation">
+      <div class="icon-row">
+        <a class="icon-tile" href="#skills" data-section-link="skills">
+          <img src="./images/book-icon.png" alt="Spells" aria-hidden="true">
+          <span>SPELLS</span>
+        </a>
+        <a class="icon-tile" href="#quests" data-section-link="quests">
+          <img src="./images/quest.png" alt="Quests" aria-hidden="true">
+          <span>QUESTS</span>
+        </a>
+        <a class="icon-tile" href="#artifacts" data-section-link="artifacts">
+          <img src="./images/treasure-location.png" alt="Artifacts" aria-hidden="true">
+          <span>ARTIFACTS</span>
+        </a>
+        <a class="icon-tile" href="#lore" data-section-link="lore">
+          <img src="./images/diploma.png" alt="Lore" aria-hidden="true">
+          <span>LORE</span>
+        </a>
+        <a class="icon-tile" href="#contact" data-section-link="contact">
+          <img src="./images/ravenCrow.webp" alt="Raven" aria-hidden="true">
+          <span>RAVEN</span>
+        </a>
+      </div>
+    </nav>
+
+    <section class="section parchment" id="stats" aria-labelledby="stats-title">
+      <div class="container reveal">
+        <h2 class="section-heading" id="stats-title"><span>CHARACTER SHEET</span></h2>
+        <div class="bio-grid">
+          <div>
+            <h3 class="minor-heading"><span>BIO</span></h3>
+            <p class="bio-copy">"I've shipped real-time systems, wrestled with WebSocket dragons, and deployed to the cloud. In need of a Full Stack Mage for your next quest?"</p>
+            <p class="aside">(or just ping me on LinkedIn, that works too)</p>
+
+            <div class="character-info" aria-label="Character information">
+              <div><span class="label">◆ NAME</span> : Yojjal Sharma</div>
+              <div><span class="label">◆ CLASS</span> : Full Stack Developer</div>
+              <div><span class="label">◆ GUILD</span> : Software Engineering</div>
+              <div><span class="label">◆ ORIGIN</span> : Pokhara, Nepal</div>
+              <div><span class="label">◆ STATUS</span> : Open to Opportunities</div>
+            </div>
+
+            
+            
+          </div>
+
+          <aside class="portrait-side" aria-label="Class portrait">
+            <div class="portrait-frame">
+              <span class="stud tl"></span>
+              <span class="stud tr"></span>
+              <span class="stud bl"></span>
+              <span class="stud br"></span>
+              <div class="portrait-inner">
+                <img src="./images/full-stack-mage.png" alt="" style="width: 100%; height: 100%;">
+              </div>
+            </div>
+            <div class="class-badge">FULL STACK MAGE</div>
+            <a class="inventory-button" href="#skills">[ INVENTORY ]</a>
+            <div class="quick-links">
+              <div><img class="contact-icon" src="./images/email.webp" alt="" aria-hidden="true"> yojjal878@gmail.com</div>
+              <div><img class="contact-icon" src="./images/quest.png" alt="" aria-hidden="true"> yojjalsharma.com.np</div>
+              <div><img class="contact-icon" src="./images/treasure-location.png" alt="" aria-hidden="true"> Pokhara, Nepal</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <div class="pixel-divider" aria-hidden="true">◆ ───────────────────────────── ◆</div>
+    </section>
+
+    <section class="section scanline" id="skills" aria-labelledby="skills-title">
+      <div class="container reveal">
+        <h2 class="section-heading dark" id="skills-title"><span>SKILL INVENTORY</span></h2>
+        <div class="skills-grid">
+          <article class="jrpg-panel skill-card">
+            <h3>WEAPONS</h3>
+            <div class="skill-row">
+              <div class="skill-meta"><span>JavaScript</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>TypeScript</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>HTML / CSS</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>SQL</span></div>
+            </div>
+          </article>
+
+          <article class="jrpg-panel skill-card">
+            <h3>ARMOR</h3>
+            <div class="skill-row">
+              <div class="skill-meta"><span>React.js</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>Next.js</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>Tailwind CSS</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>Socket.io Client</span></div>
+            </div>
+          </article>
+
+          <article class="jrpg-panel skill-card">
+            <h3>SPELLS</h3>
+            <div class="skill-row">
+              <div class="skill-meta"><span>Node.js / Express</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>PostgreSQL / Prisma</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>MongoDB</span></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-meta"><span>Git / REST APIs</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="tag-row inventory-tags" aria-label="Tools and platform item chips">
+          <span class="tag">Vercel</span>
+          <span class="tag">Azure App Service</span>
+          <span class="tag">Prisma ORM</span>
+          <span class="tag">Neon PostgreSQL</span>
+          <span class="tag">React Router</span>
+          <span class="tag">Socket.io</span>
+          <span class="tag">PostHog</span>
+          <span class="tag">Express.js</span>
+          <span class="tag">React Context API</span>
+        </div>
+      </div>
+      <div class="pixel-divider" aria-hidden="true">◆ ───────────────────────────── ◆</div>
+    </section>
+
+    <section class="section parchment" id="quests" aria-labelledby="quests-title">
+      <div class="container reveal">
+        <h2 class="section-heading" id="quests-title"><span>QUEST LOG</span></h2>
+        <div class="quest-timeline">
+          <article class="jrpg-panel parchment-panel quest-entry">
+            <div class="quest-icon" aria-hidden="true"><img src="./images/levelup.png" alt="Active quest"></div>
+            <div class="quest-body">
+              <div class="quest-top">
+                <div>
+                  <h3 class="quest-title">MERN Stack Instructor</h3>
+                  <p class="company">Urja Tech Academy</p>
+                </div>
+                <span class="status-badge status-active">✦ ACTIVE</span>
+              </div>
+              <p class="date-line">March 2026 — Present</p>
+              <ul class="quest-points">
+                <li>Delivering instruction on core MERN stack technologies: MongoDB, Express.js, React, Node.js</li>
+                <li>Guiding students through hands-on full-stack projects including REST API development</li>
+                <li>Mentoring students in debugging, code optimization, and JavaScript best practices</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="jrpg-panel parchment-panel quest-entry">
+            <div class="quest-icon" aria-hidden="true"><img src="./images/levelup.png" alt="Active quest"></div>
+            <div class="quest-body">
+              <div class="quest-top">
+                <div>
+                  <h3 class="quest-title">Frontend Developer (Part-Time, Remote)</h3>
+                  <p class="company">VP IT Consultancy Pvt. Ltd.</p>
+                </div>
+                <span class="status-badge status-active">✦ ACTIVE</span>
+              </div>
+              <p class="date-line">October 2025 — Present</p>
+              <ul class="quest-points">
+                <li>Developed frontend of Nepal PG — an entrance preparation platform for Nepali students</li>
+                <li>Built responsive, reusable React.js components integrated with REST APIs</li>
+                <li>Improved component reusability to support faster feature development</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="jrpg-panel parchment-panel quest-entry">
+            <div class="quest-icon" aria-hidden="true"><img src="./images/book-icon.png" alt="Completed quest"></div>
+            <div class="quest-body">
+              <div class="quest-top">
+                <div>
+                  <h3 class="quest-title">Full Stack Developer Intern</h3>
+                  <p class="company">Aankhijhyal Technologies</p>
+                </div>
+                <span class="status-badge status-complete">✓ COMPLETE</span>
+              </div>
+              <p class="date-line">May 2025 — July 2025</p>
+              <ul class="quest-points">
+                <li>Developed responsive web interfaces using modern JavaScript frameworks</li>
+                <li>Built frontend components and integrated APIs for dynamic content rendering</li>
+                <li>Followed agile development practices in a collaborative team environment</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="pixel-divider" aria-hidden="true">◆ ───────────────────────────── ◆</div>
+    </section>
+
+    <section class="section scanline" id="artifacts" aria-labelledby="artifacts-title">
+      <div class="container reveal">
+        <h2 class="section-heading dark" id="artifacts-title"><span>LEGENDARY ARTIFACTS</span></h2>
+        <div class="artifacts-grid">
+          <article class="jrpg-panel artifact-card">
+            <div class="artifact-top">
+              <span class="rarity-badge rarity-legendary">◆ LEGENDARY</span>
+            </div>
+            <div class="artifact-icon" aria-hidden="true"><img src="./images/treasure-location.png" alt=""></div>
+            <h3 class="artifact-name">QueueUp</h3>
+            <p class="artifact-desc">Real-time squad-finding platform with live lobby sync, in-lobby chat, and session-based authentication across concurrent users.</p>
+            <div class="project-tags">
+              <span class="tag">React 19</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">Tailwind CSS 4</span>
+              <span class="tag">Express.js</span>
+              <span class="tag">Prisma</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Socket.io</span>
+              <span class="tag">Vercel</span>
+              <span class="tag">Azure</span>
+            </div>
+            <div class="artifact-actions">
+              <a class="artifact-action primary" href="https://queue-up-six.vercel.app/" target="_blank" rel="noopener">[ LIVE DEMO ]</a>
+              <a class="artifact-action secondary" href="https://github.com/yojjal060/QueueUp" target="_blank" rel="noopener">[ CODE ]</a>
+            </div>
+          </article>
+
+          <article class="jrpg-panel artifact-card">
+            <div class="artifact-top">
+              <span class="rarity-badge rarity-rare">◆ RARE</span>
+            </div>
+            <div class="artifact-icon" aria-hidden="true"><img src="./images/quest.png" alt=""></div>
+            <h3 class="artifact-name">DevEvent</h3>
+            <p class="artifact-desc">Developer event discovery platform with server-side rendering, dynamic routing, event booking, and PostHog analytics integration.</p>
+            <div class="project-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">Tailwind CSS</span>
+              <span class="tag">PostHog</span>
+              <span class="tag">Vercel</span>
+            </div>
+            <div class="artifact-actions">
+              <a class="artifact-action primary" href="https://dev-events-phi-lake.vercel.app/" target="_blank" rel="noopener">[ LIVE DEMO ]</a>
+              <a class="artifact-action secondary" href="https://github.com/yojjal060/dev-events-next" target="_blank" rel="noopener">[ CODE ]</a>
+            </div>
+          </article>
+
+          <article class="jrpg-panel artifact-card">
+            <div class="artifact-top">
+              <span class="rarity-badge rarity-rare">◆ RARE</span>
+            </div>
+            <div class="artifact-icon" aria-hidden="true"><img src="./images/ravenCrow.webp" alt=""></div>
+            <h3 class="artifact-name">VibeVid</h3>
+            <p class="artifact-desc">Video Uploading Site like Youtube's Backend</p>
+            <div class="project-tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">MONGODB</span>
+            </div>
+            <div class="artifact-actions">
+              <a class="artifact-action secondary" href="https://github.com/yojjal060/Vibevid" target="_blank" rel="noopener">[ CODE ]</a>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="pixel-divider" aria-hidden="true">◆ ───────────────────────────── ◆</div>
+    </section>
+
+    <section class="section parchment" id="lore" aria-labelledby="lore-title">
+      <div class="container reveal">
+        <h2 class="section-heading" id="lore-title"><span>ACADEMY RECORDS</span></h2>
+        <div class="records-list">
+          <article class="jrpg-panel parchment-panel record-card">
+            <div class="record-icon" aria-hidden="true"><img src="./images/diploma.png" alt="Graduation"></div>
+            <div>
+              <h3 class="record-title">B.Sc. CSIT</h3>
+              <p class="institution">Prithvi Narayan Campus, Pokhara</p>
+              <p class="date-line">May 2022 — March 2026</p>
+              <p class="courses">◆ Data Structures & Algorithms&nbsp;&nbsp; ◆ Web Development&nbsp;&nbsp; ◆ Networking</p>
+            </div>
+          </article>
+
+          <article class="jrpg-panel parchment-panel record-card">
+            <div class="record-icon" aria-hidden="true"><img src="./images/book-icon.png" alt="Education"></div>
+            <div>
+              <h3 class="record-title">+2 Science</h3>
+              <p class="institution">Liverpool Higher Secondary School, Kathmandu</p>
+              <p class="date-line">February 2021</p>
+            </div>
+          </article>
+        </div>
+
+        <article class="jrpg-panel parchment-panel philosophy">
+          <blockquote>"Passionate about building end-to-end applications with clean architecture. Drawn to real-time systems, cloud deployment, and scalable web infrastructure."</blockquote>
+          <cite>— Yojjal Sharma</cite>
+        </article>
+      </div>
+      <div class="pixel-divider" aria-hidden="true">◆ ───────────────────────────── ◆</div>
+    </section>
+
+    <section class="section scanline" id="contact" aria-labelledby="contact-title">
+      <div class="container reveal">
+        <h2 class="section-heading dark" id="contact-title"><span>SEND A RAVEN</span></h2>
+        <div class="contact-wrap">
+          <div class="raven-mark" aria-hidden="true">
+            <img src="./images/ravenCrow.webp" alt="Raven messenger">
+          </div>
+          <div class="contact-lines">
+            <div><img class="contact-icon" src="./images/email.webp" alt="" aria-hidden="true"> yojjal878@gmail.com</div>
+            <div><img class="contact-icon" src="./images/quest.png" alt="" aria-hidden="true"> yojjalsharma.com.np</div>
+            <div><img class="contact-icon" src="./images/treasure-location.png" alt="" aria-hidden="true"> Pokhara, Nepal, +977 9867669502</div>
+          </div>
+          <div class="social-row" aria-label="Social links">
+            <a class="social-button" href="https://github.com/yojjal060" target="_blank" rel="noopener" aria-label="GitHub"><img src="./images/githubicone.webp" alt="GitHub"></a>
+            <a class="social-button" href="https://linkedin.com/in/yojjal-sharma-dev" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="./images/linkedin.png" alt="LinkedIn"></a>
+            <a class="social-button" href="https://yojjalsharma.com.np" target="_blank" rel="noopener" aria-label="Portfolio website">YS</a>
+            <a class="social-button" href="mailto:yojjal878@gmail.com" aria-label="Email"><img src="./images/email.webp" alt="Email"></a>
+          </div>
+          <a class="rpg-button download-button" href="./cv/FullStack%20-%20Yojjal%20Sharma.pdf" target="_blank" rel="noopener">[ DOWNLOAD CV ]</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    
+    <p class="footer-main">CRAFTED BY YOJJAL SHARMA · © 2026</p>
+    <p class="footer-sub">· Pokhara, Nepal</p>
+  </footer>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const menuButton = document.querySelector(".menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const navLinks = [...document.querySelectorAll("[data-section-link]")];
+      const revealTargets = [...document.querySelectorAll(".reveal")];
+
+      const closeMenu = () => {
+        body.classList.remove("nav-open");
+        menuButton?.setAttribute("aria-expanded", "false");
+      };
+
+      menuButton?.addEventListener("click", () => {
+        const nextState = !body.classList.contains("nav-open");
+        body.classList.toggle("nav-open", nextState);
+        menuButton.setAttribute("aria-expanded", String(nextState));
+      });
+
+      mobileMenu?.addEventListener("click", (event) => {
+        if (event.target.closest("a")) closeMenu();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMenu();
+      });
+
+      const setActive = (id) => {
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.dataset.sectionLink === id);
+        });
+      };
+
+      const activeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      }, {
+        rootMargin: "-34% 0px -54% 0px",
+        threshold: 0
+      });
+
+      ["stats", "skills", "quests", "artifacts", "lore", "contact"].forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) activeObserver.observe(section);
+      });
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.12
+      });
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+
+      const titleText = document.querySelector(".hero-title-text");
+      if (titleText) {
+        const sequences = [
+          {
+            text: titleText.dataset.textEnglish || titleText.textContent || "",
+            className: "title-english"
+          },
+          {
+            text: titleText.dataset.textSaman || titleText.textContent || "",
+            className: "title-saman"
+          }
+        ];
+
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) {
+          const first = sequences[0];
+          titleText.className = `hero-title-text ${first.className}`;
+          titleText.textContent = first.text;
+        } else {
+          let sequenceIndex = 0;
+          let charIndex = 0;
+          let deleting = false;
+
+          const typeLoop = () => {
+            const current = sequences[sequenceIndex];
+            titleText.className = `hero-title-text ${current.className}`;
+
+            if (!deleting) {
+              charIndex += 1;
+              titleText.textContent = current.text.slice(0, charIndex);
+              if (charIndex >= current.text.length) {
+                deleting = true;
+                window.setTimeout(typeLoop, 1700);
+                return;
+              }
+            } else {
+              charIndex -= 1;
+              titleText.textContent = current.text.slice(0, charIndex);
+              if (charIndex <= 0) {
+                deleting = false;
+                sequenceIndex = (sequenceIndex + 1) % sequences.length;
+                window.setTimeout(typeLoop, 800);
+                return;
+              }
+            }
+
+            const speed = deleting ? 70 : 140;
+            window.setTimeout(typeLoop, speed);
+          };
+
+          titleText.textContent = "";
+          window.setTimeout(typeLoop, 700);
+        }
+      }
+
+    })();
+  </script>
+</body>
+</html>
